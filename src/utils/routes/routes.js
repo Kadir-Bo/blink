@@ -1,4 +1,4 @@
-import { Dashboard, Home, NotFound, SignIn, SignUp } from "pages";
+import { Home, NotFound, SignIn, SignUp } from "pages";
 
 const routes = [
   {
@@ -29,13 +29,6 @@ const routes = [
     path: "/sign-up",
     component: SignUp,
     public: true,
-  },
-  {
-    name: "dashboard",
-    id: "dashboard",
-    path: "/dashboard",
-    component: Dashboard,
-    public: false,
   },
 ];
 export default routes;

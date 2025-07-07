@@ -20,7 +20,7 @@ const PrimaryButton = ({
       disabled={disabled || loading}
       aria-label={ariaLabel || text}
       className={clsx(
-        "flex items-center justify-center gap-1 w-full min-w-28 px-4 py-2.5 border rounded font-medium",
+        "flex items-center justify-center gap-1 w-full min-w-28 px-4 py-2.5 border rounded font-medium outline-none",
         "bg-emerald-700 text-white hover:bg-emerald-800 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         className
