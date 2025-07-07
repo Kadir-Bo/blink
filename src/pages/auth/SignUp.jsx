@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "context";
 import { signUpFormValidation } from "utils";
 import { GoogleSignInButton, PrimaryButton } from "components";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ const SignUp = () => {
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
   const { signup, loginWithGoogle } = useAuth();
-
+  const location = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -29,7 +30,17 @@ const SignUp = () => {
 
     try {
       await signup(email, password);
-      // optionally redirect or show success
+      location("/");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+  const handleGoogleSignIn = async () => {
+    setError("");
+
+    try {
+      await loginWithGoogle();
+      location("/");
     } catch (err) {
       setError(err.message);
     }
@@ -42,7 +53,7 @@ const SignUp = () => {
           onSubmit={handleSubmit}
           className="p-6 h-max w-full max-w-[428px] flex flex-col gap-4 justify-between border"
         >
-          <div>
+          <div className="flex flex-col gap-3">
             <h2 className="font-medium text-2xl mb-8">Sign Up</h2>
 
             <input
@@ -51,6 +62,7 @@ const SignUp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full border px-3 py-2 rounded"
+              autoComplete="email"
             />
             {formErrors.email && (
               <p className="text-red-500 text-sm">{formErrors.email}</p>
@@ -61,6 +73,7 @@ const SignUp = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
               className="w-full border px-3 py-2 rounded"
             />
             {formErrors.password && (
@@ -71,6 +84,7 @@ const SignUp = () => {
               type="password"
               placeholder="Confirm Password"
               value={passwordConfirm}
+              autoComplete="new-password"
               onChange={(e) => setPasswordConfirm(e.target.value)}
               className="w-full border px-3 py-2 rounded"
             />
@@ -91,7 +105,7 @@ const SignUp = () => {
               <hr className="w-full" />
             </div>
 
-            <GoogleSignInButton />
+            <GoogleSignInButton onClick={handleGoogleSignIn} />
           </div>
         </form>
       </div>

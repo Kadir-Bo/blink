@@ -10,4 +10,5 @@ export { default as PrimaryButton } from "./buttons/PrimaryButton";
 export { default as Layout } from "./layout/Layout";
 export { default as Footer } from "./layout/Footer";
 export { default as Header } from "./layout/Header";
+export { default as Sidebar } from "./layout/Sidebar";
 export { default as AuthHeader } from "./layout/AuthHeader";

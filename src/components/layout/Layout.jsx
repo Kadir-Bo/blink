@@ -1,16 +1,17 @@
 import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
 import { useAuth } from "context";
-import { AuthHeader } from "components";
+import { Header, Footer, AuthHeader, Sidebar } from "components";
 
 const Layout = ({ children }) => {
   const { currentUser } = useAuth();
   return (
     <>
       {currentUser ? <AuthHeader /> : <Header />}
-      {children}
-      <Footer />
+      <div className={currentUser ? "flex flex-row" : ""}>
+        <Sidebar />
+        {children}
+      </div>
+      {!currentUser && <Footer />}
     </>
   );
 };
