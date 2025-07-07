@@ -1,4 +1,4 @@
-import { PrivateRoute } from "components";
+import { Layout, PrivateRoute } from "components";
 import { AuthContextProvider } from "context";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,10 +13,14 @@ const AppRoutes = () => {
           path={route.path}
           element={
             route.public ? (
-              <route.component />
+              <Layout>
+                <route.component />
+              </Layout>
             ) : (
               <PrivateRoute>
-                <route.component />
+                <Layout>
+                  <route.component />
+                </Layout>
               </PrivateRoute>
             )
           }
