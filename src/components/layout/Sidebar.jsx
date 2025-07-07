@@ -29,7 +29,7 @@ const Sidebar = ({ isVisible, handleComponent }) => {
           animate={{ x: "0%" }}
           exit={{ x: "-100%" }}
           transition={{ duration: 0.1 }}
-          className="h-screen max-w-[200px] pt-16 w-full"
+          className="h-screen max-w-[240px] pt-16 w-full"
         >
           <ul className="w-full h-full border flex flex-col gap-1 p-2">
             {Items.map((item) => (
