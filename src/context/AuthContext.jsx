@@ -8,13 +8,12 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "components";
+import { auth, db } from "auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -30,13 +29,39 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = () => signOut(auth);
 
-  const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+  const createUserDocument = async (user) => {
+    if (!user) return;
+
+    const userRef = doc(db, "users", user.uid);
+
+    await setDoc(
+      userRef,
+      {
+        uid: user.uid,
+        email: user.email || null,
+        displayName: user.displayName || null,
+        photoURL: user.photoURL || null,
+        createdAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
   };
 
-  const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email, password) => {
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await createUserDocument(user);
+    return user;
+  };
+
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    const { user } = await signInWithPopup(auth, provider);
+    await createUserDocument(user);
+    return user;
   };
 
   const loginWithEmailAndPassword = (email, password) => {
@@ -51,10 +76,10 @@ export const AuthContextProvider = ({ children }) => {
     currentUser,
     loading,
     logout,
-    loginWithGoogle,
     signup,
-    resetPassword,
+    loginWithGoogle,
     loginWithEmailAndPassword,
+    resetPassword,
   };
 
   return (

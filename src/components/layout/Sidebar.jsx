@@ -5,8 +5,8 @@ import { Archive, Feather, Trash } from "react-feather";
 const Sidebar = ({ isVisible, handleComponent }) => {
   const Items = [
     {
-      id: "notes",
-      name: "notes",
+      id: "tasks",
+      name: "tasks",
       icon: Feather,
     },
     {

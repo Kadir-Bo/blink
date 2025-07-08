@@ -1,5 +1,9 @@
 import { PrivateRoute } from "components";
-import { AuthContextProvider, LayoutContextProvider } from "context";
+import {
+  AuthContextProvider,
+  DatabaseContextProvider,
+  LayoutContextProvider,
+} from "context";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { routes } from "utils";
@@ -34,7 +38,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <AppRoutes />
+        <DatabaseContextProvider>
+          <AppRoutes />
+        </DatabaseContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   );
