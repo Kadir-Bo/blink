@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, GoogleSignInButton, PrimaryButton } from "components";
+import { GoogleSignInButton, PrimaryButton } from "components";
 import { useAuth } from "context";
+import { auth } from "auth";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
@@ -10,7 +11,7 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const { loginWithGoogle } = useAuth();
   const location = useNavigate();
-
+  const { currentUser } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -32,6 +33,12 @@ const SignIn = () => {
       setError(err.message);
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      location("/");
+    }
+  }, [currentUser]);
 
   return (
     <main>

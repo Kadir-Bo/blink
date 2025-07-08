@@ -15,7 +15,7 @@ const LayoutContextProvider = ({ children }) => {
     setShowSidebar(!showSidebar);
   };
   const handleDashboardComponent = (id) => {
-    if (id === "notes") {
+    if (id === "tasks") {
       setDashboardComponent(null);
     } else {
       setDashboardComponent(id);
