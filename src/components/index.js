@@ -9,7 +9,7 @@ export { default as CreateNote } from "./input/CreateNote";
 export { default as GoogleSignInButton } from "./buttons/GoogleSignInButton";
 export { default as PrimaryButton } from "./buttons/PrimaryButton";
 // Dashboard Components
-export { default as Dashboardtasks } from "../components/dashboard/Dashboardtasks";
+export { default as DashboardTasks } from "../components/dashboard/DashboardTasks";
 export { default as DashboardArchive } from "../components/dashboard/DashboardArchive";
 export { default as DashboardTrash } from "../components/dashboard/DashboardTrash";
 // Layout
