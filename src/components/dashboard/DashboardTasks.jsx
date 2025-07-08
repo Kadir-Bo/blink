@@ -1,7 +1,7 @@
 import { CreateNote } from "components";
 import React from "react";
 
-const Dashbaordtasks = () => {
+const DashboardTasks = () => {
   return (
     <div>
       <CreateNote />
@@ -9,4 +9,4 @@ const Dashbaordtasks = () => {
   );
 };
 
-export default Dashbaordtasks;
+export default DashboardTasks;

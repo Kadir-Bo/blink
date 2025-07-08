@@ -1,5 +1,4 @@
-import { DashboardArchive, DashboardTrash } from "components";
-import Dashbaordtasks from "components/dashboard/Dashboardtasks";
+import { DashboardTasks, DashboardArchive, DashboardTrash } from "components";
 import { useLayout } from "context";
 import React from "react";
 
@@ -11,7 +10,7 @@ const Dashboard = () => {
     case "trash":
       return <DashboardTrash />;
     default:
-      return <Dashbaordtasks />;
+      return <DashboardTasks />;
   }
 };
 
