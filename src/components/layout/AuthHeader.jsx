@@ -1,4 +1,5 @@
 import { Logo, Searchbar } from "components";
+import { useLayout, useModal } from "context";
 import React from "react";
 import { Columns, Menu, RotateCcw, Settings } from "react-feather";
 
