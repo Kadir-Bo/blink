@@ -1,8 +1,9 @@
 import { useOnClickOutside } from "hooks";
 import React, { useRef, useState, useEffect } from "react";
 import { useDatabase } from "context";
+import clsx from "clsx";
 
-const CreateNote = () => {
+const CreateTask = ({ refetchTasks }) => {
   const { createTask } = useDatabase();
   const [isFocused, setIsFocused] = useState(false);
   const inputContainerRef = useRef();
@@ -13,15 +14,21 @@ const CreateNote = () => {
 
   const handleAddFocus = () => setIsFocused(true);
 
-  const handleRemoveFocus = () => {
-    if (description.trim()) {
-      createTask({ title, description });
+  const handleRemoveFocus = async () => {
+    if (description.trim() || title.trim()) {
+      await createTask({ title, description });
+      await refetchTasks?.();
     }
     setIsFocused(false);
     setTitle("");
     setDescription("");
   };
-
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleRemoveFocus();
+    }
+  };
   const autoResize = (el) => {
     if (!el) return;
     el.style.height = "auto";
@@ -38,7 +45,9 @@ const CreateNote = () => {
 
   return (
     <div
-      className="flex items-center gap-2 w-full max-w-[540px] mx-auto border border-gray-300 bg-white shadow-sm overflow-hidden rounded-lg outline-none"
+      className={clsx(
+        "flex items-center gap-2 w-full max-w-[520px] mx-auto border border-gray-300 bg-white shadow-sm overflow-hidden rounded-lg outline-none"
+      )}
       ref={inputContainerRef}
     >
       {isFocused ? (
@@ -51,6 +60,8 @@ const CreateNote = () => {
             onChange={(e) => setTitle(e.target.value)}
             value={title}
             rows={1}
+            autoFocus={true}
+            onKeyDown={handleKeyDown}
           />
           <textarea
             name="description"
@@ -79,4 +90,4 @@ const CreateNote = () => {
   );
 };
 
-export default CreateNote;
+export default CreateTask;

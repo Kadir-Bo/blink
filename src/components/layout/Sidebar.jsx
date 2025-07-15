@@ -1,7 +1,8 @@
 import { AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Archive, Feather, Trash } from "react-feather";
+import clsx from "clsx";
 const Sidebar = ({ isVisible, handleComponent, dashboardComponent }) => {
   const Items = [
     {
@@ -20,7 +21,7 @@ const Sidebar = ({ isVisible, handleComponent, dashboardComponent }) => {
       icon: Trash,
     },
   ];
-  const activeItemClassName = "bg-gray-100 hover:bg-gray-100";
+  const activeItemClassName = "bg-gray-100 hover:bg-gray-100 text-gray-950";
   return (
     <AnimatePresence mode="wait">
       {isVisible && (
@@ -36,9 +37,10 @@ const Sidebar = ({ isVisible, handleComponent, dashboardComponent }) => {
             {Items.map((item) => (
               <li
                 key={item.id}
-                className={`px-4 py-3 pl-6 hover:bg-gray-50 rounded-full flex items-center gap-2 capitalize text-neutral-950 font-medium cursor-pointer transition-all duration-150 ${
+                className={clsx(
+                  "px-4 py-3 pl-6 hover:bg-gray-50 rounded-full flex items-center gap-2 capitalize text-neutral-600 font-medium cursor-pointer transition-all duration-150",
                   dashboardComponent === item.id ? activeItemClassName : ""
-                }`}
+                )}
                 onClick={() => handleComponent(item.id)}
               >
                 <item.icon size={18} />
