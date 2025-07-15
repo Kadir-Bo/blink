@@ -4,14 +4,17 @@ export { default as PrivateRoute } from "./auth/PrivateRoute";
 export { default as Logo } from "./assets/brand/Logo";
 // Input
 export { default as Searchbar } from "./input/Searchbar";
-export { default as CreateNote } from "./input/CreateNote";
+export { default as CreateTask } from "./input/CreateTask";
 // Buttons
 export { default as GoogleSignInButton } from "./buttons/GoogleSignInButton";
 export { default as PrimaryButton } from "./buttons/PrimaryButton";
 // Dashboard Components
-export { default as DashboardTasks } from "../components/dashboard/DashboardTasks";
-export { default as DashboardArchive } from "../components/dashboard/DashboardArchive";
-export { default as DashboardTrash } from "../components/dashboard/DashboardTrash";
+export { default as DashboardTasks } from "./dashboard/DashboardTasks";
+export { default as DashboardArchive } from "./dashboard/DashboardArchive";
+export { default as DashboardTrash } from "./dashboard/DashboardTrash";
+// UI
+export { default as TaskCard } from "./ui/TaskCard";
+export { default as ContextMenu } from "./ui/ContextMenu";
 // Layout
 export { default as Footer } from "./layout/Footer";
 export { default as Header } from "./layout/Header";

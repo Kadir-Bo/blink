@@ -33,7 +33,7 @@ const DatabaseContextProvider = ({ children }) => {
 
   // ---------------------- CREATE TASK ----------------------------
   const createTask = async ({ title, description }) => {
-    if (!title || !description) return;
+    if (!title.trim() && !description.trim()) return; // nur abbrechen, wenn BEIDES leer ist
     try {
       const docRef = await addDoc(tasksCollectionRef, {
         title,
