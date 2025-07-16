@@ -15,6 +15,9 @@ export { default as DashboardTrash } from "./dashboard/DashboardTrash";
 // UI
 export { default as TaskCard } from "./ui/TaskCard";
 export { default as ContextMenu } from "./ui/ContextMenu";
+export { default as AccountMenu } from "./ui/AccountMenu";
+// Modal
+export { default as UserSettingsModal } from "./modal/UserSettingsModal";
 // Layout
 export { default as Footer } from "./layout/Footer";
 export { default as Header } from "./layout/Header";

@@ -1,4 +1,5 @@
 import { Home, NotFound, SignIn, SignUp } from "pages";
+import ForgotPassword from "pages/auth/ForgotPassword";
 
 const routes = [
   {
@@ -6,6 +7,14 @@ const routes = [
     id: "home",
     path: "/",
     component: Home,
+    exact: true,
+    public: true,
+  },
+  {
+    name: "forgot password",
+    id: "forgot-password",
+    path: "/help/forgot-password",
+    component: ForgotPassword,
     exact: true,
     public: true,
   },

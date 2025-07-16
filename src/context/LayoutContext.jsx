@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-import { useAuth, ModalContextProvider } from "context";
+import { useAuth, UserMessageContextProvider } from "context";
 import { Header, Footer, AuthHeader, Sidebar } from "components";
+import { ModalContextProvider } from "./ModalContext";
 
 const LayoutContext = createContext();
 
@@ -63,32 +64,36 @@ const LayoutContextProvider = ({ children }) => {
   return (
     <LayoutContext.Provider value={values}>
       <ModalContextProvider>
-        {currentUser ? (
-          <AuthHeader
-            handleToggleSidebar={handleToggleSidebar}
-            handleColumnView={handleColumnView}
-            columnView={columnView}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            onReload={handleReload} // pass reload handler to AuthHeader
-          />
-        ) : (
-          <Header />
-        )}
-        <div
-          className={`min-h-screen ${currentUser ? "flex flex-row gap-8" : ""}`}
-        >
-          {currentUser && (
-            <Sidebar
-              isVisible={showSidebar}
-              handleComponent={handleDashboardComponent}
-              dashboardComponent={dashboardComponent}
-              handleCloseSidebar={handleCloseSidebar}
+        <UserMessageContextProvider>
+          {currentUser ? (
+            <AuthHeader
+              handleToggleSidebar={handleToggleSidebar}
+              handleColumnView={handleColumnView}
+              columnView={columnView}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              onReload={handleReload} // pass reload handler to AuthHeader
             />
+          ) : (
+            <Header />
           )}
-          <main className="w-full">{children}</main>
-        </div>
-        {!currentUser && <Footer />}
+          <div
+            className={`min-h-screen ${
+              currentUser ? "flex flex-row gap-8" : ""
+            }`}
+          >
+            {currentUser && (
+              <Sidebar
+                isVisible={showSidebar}
+                handleComponent={handleDashboardComponent}
+                dashboardComponent={dashboardComponent}
+                handleCloseSidebar={handleCloseSidebar}
+              />
+            )}
+            <main className="w-full">{children}</main>
+          </div>
+          {!currentUser && <Footer />}
+        </UserMessageContextProvider>
       </ModalContextProvider>
     </LayoutContext.Provider>
   );

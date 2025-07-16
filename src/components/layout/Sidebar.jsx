@@ -1,8 +1,10 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import { motion } from "framer-motion";
-import { Archive, Feather, Trash } from "react-feather";
+import { Archive, Feather, Settings, Trash } from "react-feather";
 import clsx from "clsx";
+import { useAuth } from "context";
+import { AccountMenu } from "components";
 const Sidebar = ({ isVisible, handleComponent, dashboardComponent }) => {
   const Items = [
     {
@@ -31,14 +33,14 @@ const Sidebar = ({ isVisible, handleComponent, dashboardComponent }) => {
           animate={{ x: "0%" }}
           exit={{ x: "-100%" }}
           transition={{ duration: 0.1 }}
-          className="h-screen max-w-[240px] pt-16 w-full"
+          className="h-screen max-w-[240px] pt-16 w-full flex flex-col"
         >
           <ul className="w-full h-full border-r flex flex-col gap-1 p-2">
             {Items.map((item) => (
               <li
                 key={item.id}
                 className={clsx(
-                  "px-4 py-3 pl-6 hover:bg-gray-50 rounded-full flex items-center gap-2 capitalize text-neutral-600 font-medium cursor-pointer transition-all duration-150",
+                  "px-4 py-3 pl-6 hover:bg-gray-50 rounded-lg flex items-center gap-2 capitalize text-neutral-600 font-medium cursor-pointer transition-all duration-150",
                   dashboardComponent === item.id ? activeItemClassName : ""
                 )}
                 onClick={() => handleComponent(item.id)}
@@ -48,6 +50,7 @@ const Sidebar = ({ isVisible, handleComponent, dashboardComponent }) => {
               </li>
             ))}
           </ul>
+          <AccountMenu />
         </motion.nav>
       )}
     </AnimatePresence>

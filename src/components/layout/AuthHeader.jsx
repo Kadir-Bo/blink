@@ -64,16 +64,6 @@ const AuthHeader = ({
               )}
             </button>
           </li>
-
-          {/* Settings / Options */}
-          <li>
-            <button
-              aria-label="Settings"
-              className="outline-none p-2 hover:bg-gray-100 rounded"
-            >
-              <Settings className="stroke-gray-900" size={19} />
-            </button>
-          </li>
         </ul>
       </nav>
     </header>
