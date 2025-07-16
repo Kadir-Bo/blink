@@ -1,90 +1,74 @@
+import React, {
+  createContext,
+  useContext,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOnClickOutside } from "hooks";
-import React, { createContext, useContext, useRef, useState } from "react";
+import { UserSettingsModal } from "components";
+import { X } from "react-feather";
+
 const ModalContext = createContext();
-const useModal = () => {
-  return useContext(ModalContext);
-};
 
-const ModalContextProvider = ({ children }) => {
+export const useModal = () => useContext(ModalContext);
+
+export const ModalContextProvider = ({ children }) => {
   const modalRef = useRef(null);
-  const modalDuration = 10; // Modal Duration in Seconds
-  const [modal, setModal] = useState({
-    state: false,
-    message: "",
-    className: "",
-  });
-  const handleResetModal = () => {
-    setModal({
-      state: false,
-      message: "",
-      className: "",
-    });
-  };
-  const handleSetModal = (modal) => {
-    setModal({
-      state: modal.state || "",
-      message: modal.message || "",
-      className: modal.className || "",
-    });
-    setTimeout(() => {
-      handleResetModal();
-    }, modalDuration * 1000);
-  };
-  const values = {
-    handleSetModal,
-    handleResetModal,
-  };
-  useOnClickOutside(modalRef, () => handleResetModal());
+  const [isOpen, setIsOpen] = useState(true);
+  const [modalContent, setModalContent] = useState(<UserSettingsModal />);
 
-  const modalVariants = {
-    initial: {
-      opacity: 0,
-      y: -50,
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-    },
-    exit: {
-      opacity: 0,
-      y: -50,
-    },
+  const openModal = useCallback((content) => {
+    setModalContent(content);
+    setIsOpen(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+    setModalContent(null);
+  }, []);
+
+  useOnClickOutside(modalRef, closeModal);
+
+  const value = {
+    openModal,
+    closeModal,
   };
 
-  // USAGE:
-  // const { handleSetModal } = useModal();
-  // const handleModalExample = () => {
-  //   const modal = {
-  //     state: true,
-  //     message: "This is a error",
-  //     className: "border-red-500 text-red-500",
-  //   };
-  //   handleSetModal(modal);
-  // };
   return (
-    <ModalContext.Provider value={values}>
+    <ModalContext.Provider value={value}>
       {children}
-      <AnimatePresence mode="wait">
-        {modal.state && (
+
+      <AnimatePresence>
+        {isOpen && (
           <motion.div
-            ref={modalRef}
-            variants={modalVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className={`absolute bottom-4 left-1/2 text-center text-sm font-medium border p-4 bg-white rounded-md shadow-md min-w-48 ${
-              modal.className
-                ? modal.className
-                : "border-gray-300 bg-gray-300 text-gray-900"
-            }`}
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-[9998] flex justify-center items-center"
           >
-            <p>{modal.message}</p>
+            <motion.div
+              key="modal"
+              ref={modalRef}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className={` relative z-[9999] bg-white w-full h-full sm:max-w-6xl md:max-h-[70vh] sm:rounded-lg sm:overflow-auto p-4 sm:p-6`}
+            >
+              <button
+                className="absolute right-4 top-4 group"
+                onClick={closeModal}
+              >
+                <X className="group-hover:stroke-gray-600 stroke-gray-400 transition-all" />
+              </button>
+              {modalContent}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </ModalContext.Provider>
   );
 };
-
-export { useModal, ModalContextProvider };

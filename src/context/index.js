@@ -1,4 +1,7 @@
 export { AuthContextProvider, useAuth } from "./AuthContext";
 export { DatabaseContextProvider, useDatabase } from "./DatabaseContext";
 export { LayoutContextProvider, useLayout } from "./LayoutContext";
-export { ModalContextProvider, useModal } from "./ModalContext";
+export {
+  UserMessageContextProvider,
+  useUserMessage,
+} from "./UserMessageContext";

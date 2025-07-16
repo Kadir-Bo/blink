@@ -48,7 +48,6 @@ const DashboardTasks = () => {
           ))}
         </AnimatePresence>
       </div>
-      {loading && <p>Loading tasks...</p>}
       {!loading && filteredTasks.length === 0 && (
         <p className="text-center text-gray-500">No tasks found.</p>
       )}

@@ -126,6 +126,17 @@ const DatabaseContextProvider = ({ children }) => {
     }
   };
 
+  // ---------------------- DELETE USER PROFILE ----------------------------
+  const deleteUser = async () => {
+    if (!userRef) return;
+    try {
+      await deleteDoc(userRef);
+      console.log("User document deleted.");
+    } catch (err) {
+      console.error("Failed to delete user document:", err);
+      throw err;
+    }
+  };
   const values = {
     createTask,
     readTasks,
@@ -133,6 +144,7 @@ const DatabaseContextProvider = ({ children }) => {
     deleteTask,
     updateUser,
     getUser,
+    deleteUser,
   };
 
   return (

@@ -7,6 +7,11 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  updateProfile,
+  reauthenticateWithPopup,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
 } from "firebase/auth";
 import { auth, db } from "auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -72,6 +77,38 @@ export const AuthContextProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
+  const updateUserProfile = async ({ displayName }) => {
+    if (!auth.currentUser) return;
+    await updateProfile(auth.currentUser, { displayName });
+  };
+
+  const updateUserPassword = async (currentPassword, newPassword) => {
+    if (!auth.currentUser) throw new Error("No user is logged in");
+
+    const user = auth.currentUser;
+
+    // Re-authenticate user
+    try {
+      if (user.providerData.some((p) => p.providerId === "google.com")) {
+        // Google sign-in reauthentication with popup
+        const provider = new GoogleAuthProvider();
+        await reauthenticateWithPopup(user, provider);
+      } else {
+        // Email/password reauthentication
+        const credential = EmailAuthProvider.credential(
+          user.email,
+          currentPassword
+        );
+        await reauthenticateWithCredential(user, credential);
+      }
+
+      // Update password
+      await updatePassword(user, newPassword);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const values = {
     currentUser,
     loading,
@@ -80,6 +117,8 @@ export const AuthContextProvider = ({ children }) => {
     loginWithGoogle,
     loginWithEmailAndPassword,
     resetPassword,
+    updateUserProfile,
+    updateUserPassword,
   };
 
   return (
